@@ -3,7 +3,6 @@ package com.dmitresoft.dx;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 public class DxCall {
 
@@ -14,17 +13,9 @@ public class DxCall {
         executor = Executors.newFixedThreadPool(2);
     }
 
-    public static <T> DxSingle<T> call(DxSupplier<T> supplier) {
-        return new DxSingle<>(supplier);
-    }
+    static DxAction EMPTY_ACTION = () -> {
+    };
 
-    public static <T> DxSingle<T> call(DxSupplier<T> supplier, T def) {
-        return new DxSingleDef<>(supplier, def);
-    }
-
-    public static DxComplete call(DxAction action) {
-        return new DxComplete(action);
-    }
 
     public static void terminate() {
         try {

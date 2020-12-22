@@ -4,11 +4,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 
 abstract class DxAbstractHandler {
 
-    protected void error(DxConsumer<Throwable> err, Exception e) {
-        if (err != null) {
+    protected void error(@Nullable DxConsumer<Throwable> err, @Nullable Exception e) {
+        if (err != null && e != null) {
             new Handler(Looper.getMainLooper()).post(
                     () -> {
                         try {
@@ -23,7 +26,7 @@ abstract class DxAbstractHandler {
         }
     }
 
-    protected void post(DxAction action, DxConsumer<Throwable> err) {
+    protected void post(@NonNull DxAction action, DxConsumer<Throwable> err) {
         new Handler(Looper.getMainLooper()).post(
                 () -> {
                     try {

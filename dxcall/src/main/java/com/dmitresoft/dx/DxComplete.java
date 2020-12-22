@@ -1,14 +1,21 @@
 package com.dmitresoft.dx;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 public class DxComplete extends DxAbstractHandler {
 
     private final DxAction action;
 
-    DxComplete(DxAction action) {
+    DxComplete(@NonNull DxAction action) {
         this.action = action;
     }
 
-    public void subscribe(DxAction result, DxConsumer<Throwable> err) {
+    public static DxComplete create(@NonNull DxAction action) {
+        return new DxComplete(action);
+    }
+
+    public void subscribe(@NonNull DxAction result, @Nullable DxConsumer<Throwable> err) {
         DxCall.executor.submit(() -> {
             try {
                 action.execute();
@@ -19,8 +26,12 @@ public class DxComplete extends DxAbstractHandler {
         });
     }
 
-    public void subscribe(DxAction result) {
+    public void subscribe(@NonNull DxAction result) {
         subscribe(result, null);
+    }
+
+    public void subscribe() {
+        subscribe(DxCall.EMPTY_ACTION, null);
     }
 
 }
